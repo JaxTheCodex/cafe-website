@@ -269,11 +269,23 @@ const Menu = () => {
       : foods.filter(food => food.type === filter);
 
   return (
-    <section
-      id="menu"
-      className="py-24 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${menuBg})` }}
-    >
+    <section id="menu" className="relative py-24 overflow-hidden">
+      
+      {/* ✅ BACKGROUND IMAGE (LAZY) */}
+      <img
+        src={menuBg}
+        alt=""
+        loading="lazy"
+        className="
+          absolute inset-0 w-full h-full
+          object-cover
+          -z-10
+        "
+      />
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/60 -z-10"></div>
+
       {/* Header */}
       <div className="text-center mb-10 px-4">
         <h2 className="text-white text-4xl font-extrabold mb-3">
@@ -284,20 +296,17 @@ const Menu = () => {
         </p>
       </div>
 
-      {/* 🔘 FILTER BUTTONS */}
+      {/* FILTER BUTTONS */}
       <div className="flex justify-center gap-4 mb-14 flex-wrap px-4">
         {["all", "tea", "veg", "nonveg"].map(type => (
           <button
             key={type}
             onClick={() => setFilter(type)}
-            className={`
-              px-6 py-2 rounded-full font-semibold transition
-              ${
-                filter === type
-                  ? "bg-orange-600 text-white"
-                  : "bg-white/90 text-black hover:bg-orange-100"
-              }
-            `}
+            className={`px-6 py-2 rounded-full font-semibold transition ${
+              filter === type
+                ? "bg-orange-600 text-white"
+                : "bg-white/90 text-black hover:bg-orange-100"
+            }`}
           >
             {type === "all" && "All"}
             {type === "tea" && "☕ Tea"}
@@ -307,92 +316,78 @@ const Menu = () => {
         ))}
       </div>
 
-      {/* Cards */}
+      {/* HORIZONTAL SCROLL */}
       <div className="max-w-7xl mx-auto px-6">
-  <div
-    className="
-      flex gap-6
-      overflow-x-auto
-      pb-4
-      snap-x snap-mandatory
-      scrollbar-hide
-    "
-  >
-    {filteredFoods.map(food => (
-      <div
-        key={food.id}
-        className="
-          snap-start
-          flex-shrink-0
-          w-[80%] sm:w-[48%] lg:w-[32%]
-          group rounded-2xl overflow-hidden
-          bg-[#fff7ed] dark:bg-[#1e1e1e]
-          hover:-translate-y-1 hover:shadow-2xl
-          transition
-        "
-      >
-        {/* Image */}
-        <div className="relative aspect-square">
-          <img
-            src={food.img}
-            alt={food.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition"
-          />
-
-          {/* Tag */}
-          <span className="absolute top-3 left-3 bg-orange-600 text-white text-xs px-3 py-1 rounded-full">
-            {food.tag}
-          </span>
-
-          {/* Veg / Non-Veg Indicator */}
-          <span
-            className={`
-              absolute top-3 right-3
-              w-4 h-4 rounded-full
-              ${
-                food.type === "veg"
-                  ? "bg-green-500"
-                  : food.type === "nonveg"
-                  ? "bg-red-500"
-                  : "bg-yellow-400"
-              }
-            `}
-            title={food.type}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="p-5">
-          <h3 className="text-xl font-bold mb-1">
-            {food.name}
-          </h3>
-
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-            {food.desc}
-          </p>
-
-          <div className="flex justify-between items-center">
-            <span className="text-xl font-bold text-orange-700">
-              {food.price}
-            </span>
-
-            <button
-              onClick={() => addToCart(food)}
-              className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition"
+        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
+          
+          {filteredFoods.map(food => (
+            <div
+              key={food.id}
+              className="
+                snap-start flex-shrink-0
+                w-[80%] sm:w-[48%] lg:w-[32%]
+                bg-[#fff7ed] dark:bg-[#1e1e1e]
+                rounded-2xl overflow-hidden
+                transition hover:shadow-xl
+              "
             >
-              <i className="fa-solid fa-cart-plus mr-2"></i>
-              Add
-            </button>
-          </div>
+              {/* ✅ IMAGE LAZY LOAD */}
+              <div className="relative aspect-square">
+                <img
+                  src={food.img}
+                  alt={food.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+
+                <span className="absolute top-3 left-3 bg-orange-600 text-white text-xs px-3 py-1 rounded-full">
+                  {food.tag}
+                </span>
+
+                <span
+                  className={`absolute top-3 right-3 w-4 h-4 rounded-full ${
+                    food.type === "veg"
+                      ? "bg-green-500"
+                      : food.type === "nonveg"
+                      ? "bg-red-500"
+                      : "bg-yellow-400"
+                  }`}
+                />
+              </div>
+
+              {/* Content */}
+              <div className="p-5">
+                <h3 className="text-xl font-bold mb-1">
+                  {food.name}
+                </h3>
+
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                  {food.desc}
+                </p>
+
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-orange-700">
+                    {food.price}
+                  </span>
+
+                  <button
+                    onClick={() => addToCart(food)}
+                    className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition"
+                  >
+                    <i className="fa-solid fa-cart-plus mr-2"></i>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+
         </div>
       </div>
-    ))}
-  </div>
-</div>
-
     </section>
   );
 };
+
 
 export default Menu;
 

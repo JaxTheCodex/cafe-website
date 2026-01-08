@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { CartProvider, useCart } from "./context/CartContext";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Menu from "./components/Menu";
-import About from "./components/About";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
 import CheckoutModal from "./components/CheckoutModal";
-import ContactSection from "./components/ContactSection";
 
-import loading from "../src/assets/images/loading.png";
+import loading from "./assets/images/loading.png";
+
+/* 🔥 LAZY LOADED (heavy components) */
+const Menu = lazy(() => import("./components/Menu"));
+const About = lazy(() => import("./components/About"));
+const ContactSection = lazy(() => import("./components/ContactSection"));
 
 /* ✅ CONTENT COMPONENT */
 function AppContent({ dark, toggleDark }) {
@@ -20,11 +23,16 @@ function AppContent({ dark, toggleDark }) {
       <div style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}>
         <Navbar toggleDark={toggleDark} />
         <Hero />
-        <Menu />
+
+        {/* Lazy Sections */}
+        <Suspense fallback={null}>
+          <Menu />
+          <About />
+          <ContactSection />
+        </Suspense>
+
         <Cart />
         {showCheckout && <CheckoutModal />}
-        <About />
-        <ContactSection />
         <Footer />
       </div>
     </div>
@@ -36,40 +44,35 @@ function App() {
   const [dark, setDark] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
 
+  /* 🚀 FAST NON-BLOCKING LOADER */
   useEffect(() => {
-    const handleLoad = () => {
-      setTimeout(() => {
-        setLoadingScreen(false);
-      }, 1200); // 👈 smooth delay
-    };
+    const raf = requestAnimationFrame(() => {
+      setLoadingScreen(false);
+    });
 
-    window.addEventListener("load", handleLoad);
-    return () => window.removeEventListener("load", handleLoad);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
     <>
       {/* 🔥 LOADER */}
-{loadingScreen && (
-  <div className="loader-bg">
-    <img
-      src={loading}
-      alt="Loading..."
-      className="loader-img"
-    />
-  </div>
-)}
-
-
-      {/* 🔥 WEBSITE */}
-      {!loadingScreen && (
-        <CartProvider>
-          <AppContent
-            dark={dark}
-            toggleDark={() => setDark(!dark)}
+      {loadingScreen && (
+        <div className="loader-bg">
+          <img
+            src={loading}
+            alt="Loading..."
+            className="loader-img"
           />
-        </CartProvider>
+        </div>
       )}
+
+      {/* 🔥 APP */}
+      <CartProvider>
+        <AppContent
+          dark={dark}
+          toggleDark={() => setDark(!dark)}
+        />
+      </CartProvider>
     </>
   );
 }

@@ -1,26 +1,33 @@
 import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
+
+const NAV_ITEMS = ["home", "menu", "about", "contact"];
 
 const Navbar = () => {
   const { cart, setShowCart } = useCart();
   const [open, setOpen] = useState(false);
 
-  const scrollTo = (id) => {
-    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+  // ✅ useCallback prevents re-creation
+  const scrollTo = useCallback((id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
     setOpen(false);
-  };
+  }, []);
 
   return (
     <nav className="fixed w-full z-50 bg-[var(--primary)] text-white">
       <div className="flex justify-between items-center px-6 py-4">
-        <h1 className="font-bold text-xl">☕ Tea Point Cafe</h1>
+        <h1 className="font-bold text-xl select-none">
+          ☕ Tea Point Cafe
+        </h1>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex gap-6">
-          {["home","menu","about","contact"].map(item => (
+          {NAV_ITEMS.map(item => (
             <li
               key={item}
               onClick={() => scrollTo(item)}
-              className="cursor-pointer"
+              className="cursor-pointer hover:text-yellow-300 transition"
             >
               {item.toUpperCase()}
             </li>
@@ -28,36 +35,51 @@ const Navbar = () => {
         </ul>
 
         <div className="flex gap-4 items-center">
-          {/* 🛒 CART BUTTON */}
-          <div
-            className="relative cursor-pointer"
+          {/* 🛒 Cart */}
+          <button
+            className="relative"
+            aria-label="Open cart"
             onClick={() => setShowCart(true)}
           >
             <i className="fa-solid fa-cart-shopping text-lg"></i>
+
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-2 rounded-full">
                 {cart.length}
               </span>
             )}
-          </div>
+          </button>
 
-          <button className="md:hidden" onClick={() => setOpen(!open)}>
+          {/* Mobile Toggle */}
+          <button
+            className="md:hidden"
+            onClick={() => setOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
             <i className="fa-solid fa-bars"></i>
           </button>
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden px-6 pb-4">
-          {["home","menu","about","contact"].map(item => (
-            <p key={item} onClick={() => scrollTo(item)} className="py-2">
-              {item.toUpperCase()}
-            </p>
-          ))}
-        </div>
-      )}
+      {/* Mobile Menu (CSS controlled, no unmounting) */}
+      <div
+        className={`
+          md:hidden px-6 overflow-hidden transition-all duration-300
+          ${open ? "max-h-60 opacity-100 pb-4" : "max-h-0 opacity-0"}
+        `}
+      >
+        {NAV_ITEMS.map(item => (
+          <p
+            key={item}
+            onClick={() => scrollTo(item)}
+            className="py-2 cursor-pointer hover:text-yellow-300 transition"
+          >
+            {item.toUpperCase()}
+          </p>
+        ))}
+      </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default memo(Navbar);
