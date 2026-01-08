@@ -10,3 +10,51 @@
   --bg: #111827;
   --text: #f9fafb;
 }
+
+/* 🔥 LOADER ANIMATION */
+
+@keyframes loaderZoomFade {
+  0% {
+    transform: scale(0.8);
+    filter: brightness(0.6);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    filter: brightness(0.6);
+    opacity: 0.6;
+  }
+}
+
+@keyframes loaderBgFade {
+  0% {
+    background-color: #000000;
+  }
+  50% {
+    background-color: #1a1a1a;
+  }
+  100% {
+    background-color: #000000;
+  }
+}
+
+.loader-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: loaderBgFade 3s ease-in-out infinite;
+}
+
+.loader-img {
+  width: 140px;
+  animation: loaderZoomFade 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px rgba(255, 165, 0, 0.8));
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CartProvider, useCart } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -9,7 +9,9 @@ import Cart from "./components/Cart";
 import CheckoutModal from "./components/CheckoutModal";
 import ContactSection from "./components/ContactSection";
 
-/* ✅ THIS COMPONENT CAN USE useCart */
+import loading from "../src/assets/images/loading.png";
+
+/* ✅ CONTENT COMPONENT */
 function AppContent({ dark, toggleDark }) {
   const { showCheckout } = useCart();
 
@@ -29,17 +31,46 @@ function AppContent({ dark, toggleDark }) {
   );
 }
 
-/* ✅ PROVIDER LIVES HERE */
+/* ✅ MAIN APP */
 function App() {
   const [dark, setDark] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setTimeout(() => {
+        setLoadingScreen(false);
+      }, 1200); // 👈 smooth delay
+    };
+
+    window.addEventListener("load", handleLoad);
+    return () => window.removeEventListener("load", handleLoad);
+  }, []);
 
   return (
-    <CartProvider>
-      <AppContent
-        dark={dark}
-        toggleDark={() => setDark(!dark)}
-      />
-    </CartProvider>
+    <>
+      {/* 🔥 LOADER */}
+{loadingScreen && (
+  <div className="loader-bg">
+    <img
+      src={loading}
+      alt="Loading..."
+      className="loader-img"
+    />
+  </div>
+)}
+
+
+      {/* 🔥 WEBSITE */}
+      {!loadingScreen && (
+        <CartProvider>
+          <AppContent
+            dark={dark}
+            toggleDark={() => setDark(!dark)}
+          />
+        </CartProvider>
+      )}
+    </>
   );
 }
 
