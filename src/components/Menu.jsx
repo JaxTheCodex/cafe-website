@@ -3,32 +3,31 @@ import { useCart } from "../context/CartContext";
 import menuBg from "../assets/images/menuBg.jpg";
 
 
-import item1 from "../assets/images/item (1).jpg";
-import item2 from "../assets/images/item (1).png";
-import item3 from "../assets/images/item (2).jpg";
-import item4 from "../assets/images/item (3).jpg";
-import item5 from "../assets/images/item (4).jpg";
-import item6 from "../assets/images/item (5).jpg";
-import item7 from "../assets/images/item (6).jpg";
+import item1 from "../assets/images/item (11).jpg";
+import item2 from "../assets/images/item (8).jpg";
+import item3 from "../assets/images/item (18).jpg";
+import item4 from "../assets/images/item (13).jpg";
+import item5 from "../assets/images/item (20).jpg";
+import item6 from "../assets/images/item.jpg";
+import item7 from "../assets/images/item (25).jpg";
 import item8 from "../assets/images/item (7).jpg";
-import item9 from "../assets/images/item (8).jpg";
+import item9 from "../assets/images/item (1).png";
 import item10 from "../assets/images/item (9).jpg";
-import item11 from "../assets/images/item (10).jpg";
-import item12 from "../assets/images/item (11).jpg";
-import item13 from "../assets/images/item (12).jpg";
-import item14 from "../assets/images/item (13).jpg";
-import item15 from "../assets/images/item (14).jpg";
-import item16 from "../assets/images/item (15).jpg";
-import item17 from "../assets/images/item (16).jpg";
-import item18 from "../assets/images/item (17).jpg";
-import item19 from "../assets/images/item (18).jpg";
-import item20 from "../assets/images/item (19).jpg";
-import item21 from "../assets/images/item (20).jpg";
-import item22 from "../assets/images/item (21).jpg";
-import item23 from "../assets/images/item (22).jpg";
-import item24 from "../assets/images/item (23).jpg";
-import item25 from "../assets/images/item (24).jpg";
-import item26 from "../assets/images/item (25).jpg";
+import item11 from "../assets/images/item (19).jpg";
+import item12 from "../assets/images/item (24).jpg";
+import item13 from "../assets/images/item (22).jpg";
+import item14 from "../assets/images/item (12).jpg";
+import item15 from "../assets/images/item (1).jpg";
+import item16 from "../assets/images/item (14).jpg";
+import item17 from "../assets/images/item (10).jpg";
+import item18 from "../assets/images/item (16).jpg";
+import item19 from "../assets/images/item (17).jpg";
+import item20 from "../assets/images/item (5).jpg";
+import item21 from "../assets/images/item (4).jpg";
+import item22 from "../assets/images/item (3).jpg";
+import item24 from "../assets/images/item (6).jpg";
+import item25 from "../assets/images/item (21).jpg";
+import item26 from "../assets/images/item (15).jpg";
 
 
 
@@ -230,15 +229,6 @@ const foods = [
     desc: "Soya chunks cooked in gravy",
     tag: "Protein",
     type: "veg"
-  },
-  {
-    id: 23,
-    name: "Crispy Chicken Salt & Pepper",
-    price: "₹180",
-    img: item23,
-    desc: "Extra crispy chicken with spices",
-    tag: "Best Seller",
-    type: "nonveg"
   },
   {
     id: 24,
