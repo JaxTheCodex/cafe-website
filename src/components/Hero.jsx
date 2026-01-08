@@ -39,7 +39,7 @@ const Hero = () => {
           Experience the best taste made with love & fresh ingredients.
         </p>
         <button className="bg-orange-600 px-6 py-3 rounded hover:bg-orange-700">
-          Order Now <i className="fa-solid fa-arrow-right ml-2"></i>
+         <a href="#menu">Order Now </a> <i className="fa-solid fa-arrow-right ml-2"></i>
         </button>
       </div>
     </section>
