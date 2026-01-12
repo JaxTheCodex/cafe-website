@@ -1,5 +1,4 @@
-import heroMobile from "../assets/images/homeBg2.jpg";
-import heroDesktop from "../assets/images/homeBg1.jpg";
+import heroBg from "../assets/images/homeBg1.jpg";
 import foodImg from "../assets/images/foodplate.png";
 
 const Hero = () => {
@@ -9,15 +8,12 @@ const Hero = () => {
       className="relative h-screen flex items-start md:items-center overflow-hidden"
     >
       {/* Background */}
-      <picture className="absolute inset-0">
-        <source media="(min-width: 768px)" srcSet={heroDesktop} />
-        <img
-          src={heroMobile}
-          alt="Tea Point Cafe"
-          loading="eager"
-          className="w-full h-full object-cover"
-        />
-      </picture>
+      <img
+        src={heroBg}
+        alt="Tea Point Cafe Background"
+        className="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+      />
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/30"></div>
