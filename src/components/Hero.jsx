@@ -1,3 +1,4 @@
+import heroMobile from "../assets/images/homeBg2.jpg";
 import heroDesktop from "../assets/images/homeBg1.jpg";
 import foodImg from "../assets/images/foodplate.png";
 
@@ -11,7 +12,7 @@ const Hero = () => {
       <picture className="absolute inset-0">
         <source media="(min-width: 768px)" srcSet={heroDesktop} />
         <img
-          src={heroDesktop}
+          src={heroMobile}
           alt="Tea Point Cafe"
           loading="eager"
           className="w-full h-full object-cover"
