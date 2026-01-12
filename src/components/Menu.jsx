@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import menuBg from "../assets/images/menuBg.jpg";
+import card1 from "../assets/images/card1.png";
+import card2 from "../assets/images/card2.png";
 
 
 import item1 from "../assets/images/item (11).jpg";
@@ -262,6 +264,8 @@ const foods = [
 const Menu = () => {
   const { addToCart } = useCart();
   const [filter, setFilter] = useState("all");
+  const [showMenuCard, setShowMenuCard] = useState(false);
+
 
   const filteredFoods =
     filter === "all"
@@ -270,7 +274,7 @@ const Menu = () => {
 
   return (
     <section id="menu" className="relative py-24 overflow-hidden">
-      
+
       {/* ✅ BACKGROUND IMAGE (LAZY) */}
       <img
         src={menuBg}
@@ -297,29 +301,109 @@ const Menu = () => {
       </div>
 
       {/* FILTER BUTTONS */}
+      {/* FILTER BUTTONS */}
       <div className="flex justify-center gap-4 mb-14 flex-wrap px-4">
         {["all", "tea", "veg", "nonveg"].map(type => (
           <button
             key={type}
             onClick={() => setFilter(type)}
-            className={`px-6 py-2 rounded-full font-semibold transition ${
-              filter === type
-                ? "bg-orange-600 text-white"
-                : "bg-white/90 text-black hover:bg-orange-100"
-            }`}
+            className={`
+        px-7 py-2.5 rounded-full
+        font-semibold text-sm tracking-wide
+        backdrop-blur-md
+        transition-all duration-300
+        border border-transparent
+        shadow-sm
+        ${filter === type
+                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg scale-105"
+                : "bg-white/80 text-gray-800 hover:bg-orange-100 hover:shadow-md hover:-translate-y-0.5"
+              }
+      `}
           >
-            {type === "all" && "All"}
+            {type === "all" && "✨ All"}
             {type === "tea" && "☕ Tea"}
             {type === "veg" && "🟢 Veg"}
             {type === "nonveg" && "🔴 Non-Veg"}
           </button>
         ))}
+
+        {/* 🔥 MENU CARD BUTTON */}
+        <button
+          onClick={() => setShowMenuCard(true)}
+          className="
+      px-7 py-2.5 rounded-full
+      font-semibold text-sm tracking-wide
+      bg-gray-300 text-black
+      hover:bg-white
+      transition-all duration-300
+      shadow-md hover:shadow-lg
+      hover:-translate-y-0.5
+    "
+        >
+          📖 Menu Card
+        </button>
       </div>
+
+      {showMenuCard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+
+          {/* Popup */}
+          <div className="relative bg-white rounded-2xl max-w-4xl w-[90%] p-6 animate-popup">
+
+            {/* Close Button */}
+            <button
+              onClick={() => setShowMenuCard(false)}
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+            >
+              ✕
+            </button>
+
+            <h3 className="text-2xl font-bold text-center mb-6">
+              Our Menu Card
+            </h3>
+
+            {/* Images */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <img
+                src={card1}
+                alt="Menu Card 1"
+                className="rounded-xl shadow-md"
+              />
+              <img
+                src={card2}
+                alt="Menu Card 2"
+                className="rounded-xl shadow-md"
+              />
+            </div>
+          </div>
+
+          {/* Animation */}
+          <style>{`
+      @keyframes popup {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .animate-popup {
+        animation: popup 0.3s ease-out;
+      }
+    `}</style>
+        </div>
+      )}
+
+
+
 
       {/* HORIZONTAL SCROLL */}
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
-          
+        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar">
+
           {filteredFoods.map(food => (
             <div
               key={food.id}
@@ -345,19 +429,18 @@ const Menu = () => {
                 </span>
 
                 <span
-                  className={`absolute top-3 right-3 w-4 h-4 rounded-full ${
-                    food.type === "veg"
+                  className={`absolute top-3 right-3 w-4 h-4 rounded-full ${food.type === "veg"
                       ? "bg-green-500"
                       : food.type === "nonveg"
-                      ? "bg-red-500"
-                      : "bg-yellow-400"
-                  }`}
+                        ? "bg-red-500"
+                        : "bg-yellow-400"
+                    }`}
                 />
               </div>
 
               {/* Content */}
               <div className="p-5">
-                <h3 className="text-xl font-bold mb-1">
+                <h3 className="text-xl text-white font-bold mb-1">
                   {food.name}
                 </h3>
 
