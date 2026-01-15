@@ -42,7 +42,7 @@ const Hero = () => {
     flex flex-col justify-center
     text-white hero-text
     md:max-w-xl
-    mb-2 lg:mt-48 md:mt-16
+   lg:mt-48 md:mt-16
   "
         >
 
@@ -78,7 +78,7 @@ const Hero = () => {
         {/* ================= FOOD (BOTTOM HALF ON MOBILE) ================= */}
         <div
           className="
-            h-[70%] md:h-auto
+            h-[45%] md:h-auto
             flex flex-col md:flex-row
             items-center justify-center
             gap-4  md:gap-8 mb-8 w-full
