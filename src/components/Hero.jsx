@@ -42,7 +42,7 @@ const Hero = () => {
     flex flex-col justify-center
     text-white hero-text
     md:max-w-xl
-    mt-16 lg:mt-48
+    mb-2 lg:mt-48 md:mt-16
   "
         >
 
