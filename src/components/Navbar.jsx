@@ -7,7 +7,6 @@ const Navbar = () => {
   const { cart, setShowCart } = useCart();
   const [open, setOpen] = useState(false);
 
-  // ✅ useCallback prevents re-creation
   const scrollTo = useCallback((id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -34,7 +33,25 @@ const Navbar = () => {
           ))}
         </ul>
 
+        {/* RIGHT ACTIONS */}
         <div className="flex gap-4 items-center">
+          
+          {/* 📅 Reserve Table */}
+          <button
+            onClick={() => scrollTo("reserve")}
+            className="
+              hidden sm:flex items-center gap-2
+              bg-orange-600 text-white
+              px-4 py-1.5 rounded-full
+              text-sm font-semibold
+              hover:bg-orange-700
+              transition shadow-md
+            "
+          >
+            <i className="fa-solid fa-calendar-check"></i>
+            Reserve
+          </button>
+
           {/* 🛒 Cart */}
           <button
             className="relative"
@@ -61,11 +78,11 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (CSS controlled, no unmounting) */}
+      {/* Mobile Menu */}
       <div
         className={`
           md:hidden px-6 overflow-hidden transition-all duration-300
-          ${open ? "max-h-60 opacity-100 pb-4" : "max-h-0 opacity-0"}
+          ${open ? "max-h-72 opacity-100 pb-4" : "max-h-0 opacity-0"}
         `}
       >
         {NAV_ITEMS.map(item => (
@@ -77,6 +94,21 @@ const Navbar = () => {
             {item.toUpperCase()}
           </p>
         ))}
+
+        {/* Mobile Reserve Button */}
+        <button
+          onClick={() => scrollTo("reserve")}
+          className="
+            mt-3 w-full
+            bg-orange-600 text-white
+            py-2 rounded-full
+            font-semibold
+            hover:bg-orange-700
+            transition
+          "
+        >
+          <i className="fa-solid fa-calendar-check"></i> Reserve Table
+        </button>
       </div>
     </nav>
   );
