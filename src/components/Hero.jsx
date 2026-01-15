@@ -21,7 +21,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden "
     >
       {/* BACKGROUND */}
       <img
@@ -33,7 +33,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40"></div>
 
       {/* CONTENT */}
-      <div className="relative z-10 h-full w-full px-6 md:px-20 flex flex-col md:flex-row mt-16">
+      <div className="relative z-10 h-full w-full px-6 md:px-20 flex flex-col md:flex-row mt-16 ">
 
         {/* ================= TEXT (TOP HALF ON MOBILE) ================= */}
         <div

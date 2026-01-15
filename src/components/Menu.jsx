@@ -265,6 +265,8 @@ const Menu = () => {
   const { addToCart } = useCart();
   const [filter, setFilter] = useState("all");
   const [showMenuCard, setShowMenuCard] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
 
 
   const filteredFoods =
@@ -301,37 +303,85 @@ const Menu = () => {
       </div>
 
       {/* FILTER BUTTONS */}
-      {/* FILTER BUTTONS */}
-      <div className="flex justify-center gap-4 mb-14 flex-wrap px-4">
-        {["all", "tea", "veg", "nonveg"].map(type => (
-          <button
-            key={type}
-            onClick={() => setFilter(type)}
-            className={`
-        px-7 py-2.5 rounded-full
-        font-semibold text-sm tracking-wide
-        backdrop-blur-md
+     <div className="flex justify-center gap-4 mb-14 flex-wrap px-4">
+
+  {/* FILTER DROPDOWN */}
+  <div className="relative w-64">
+    <button
+      onClick={() => setIsOpen(!isOpen)}
+      className="
+        w-full px-6 py-3
+        rounded-full
+        bg-white/90 backdrop-blur-md
+        text-gray-800 font-semibold text-sm
+        flex items-center justify-between
+        shadow-md
+        hover:shadow-lg
         transition-all duration-300
-        border border-transparent
-        shadow-sm
-        ${filter === type
-                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg scale-105"
-                : "bg-white/80 text-gray-800 hover:bg-orange-100 hover:shadow-md hover:-translate-y-0.5"
+      "
+    >
+      <span>
+        {filter === "all" && "✨ All Items"}
+        {filter === "tea" && "☕ Tea"}
+        {filter === "veg" && "🟢 Veg"}
+        {filter === "nonveg" && "🔴 Non-Veg"}
+      </span>
+
+      <span
+        className={`transform transition-transform duration-300 ${
+          isOpen ? "rotate-180" : ""
+        }`}
+      >
+        ▼
+      </span>
+    </button>
+
+    {/* DROPDOWN LIST */}
+    {isOpen && (
+      <div
+        className="
+          absolute mt-3 w-full
+          bg-white rounded-2xl
+          shadow-xl overflow-hidden
+          animate-dropdown
+          z-40
+        "
+      >
+        {[
+          { id: "all", label: "✨ All Items" },
+          { id: "tea", label: "☕ Tea" },
+          { id: "veg", label: "🟢 Veg" },
+          { id: "nonveg", label: "🔴 Non-Veg" },
+        ].map(item => (
+          <button
+            key={item.id}
+            onClick={() => {
+              setFilter(item.id);
+              setIsOpen(false);
+            }}
+            className={`
+              w-full text-left px-6 py-3
+              text-sm font-medium
+              transition-all
+              ${
+                filter === item.id
+                  ? "bg-gradient-to-r from-orange-500 to-red-500 text-white"
+                  : "hover:bg-orange-100 text-gray-700"
               }
-      `}
+            `}
           >
-            {type === "all" && "✨ All"}
-            {type === "tea" && "☕ Tea"}
-            {type === "veg" && "🟢 Veg"}
-            {type === "nonveg" && "🔴 Non-Veg"}
+            {item.label}
           </button>
         ))}
+      </div>
+    )}
+  </div>
 
-        {/* 🔥 MENU CARD BUTTON */}
-        <button
-          onClick={() => setShowMenuCard(true)}
-          className="
-      px-7 py-2.5 rounded-full
+  {/* MENU CARD BUTTON */}
+  <button
+    onClick={() => setShowMenuCard(true)}
+    className="
+      px-7 py-3 rounded-full
       font-semibold text-sm tracking-wide
       bg-gray-300 text-black
       hover:bg-white
@@ -339,46 +389,81 @@ const Menu = () => {
       shadow-md hover:shadow-lg
       hover:-translate-y-0.5
     "
-        >
-          📖 Menu Card
-        </button>
-      </div>
+  >
+    📖 Menu Card
+  </button>
+
+  {/* DROPDOWN ANIMATION */}
+  <style>{`
+    @keyframes dropdown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-dropdown {
+      animation: dropdown 0.2s ease-out;
+    }
+  `}</style>
+</div>
+
 
       {showMenuCard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-3">
 
-          {/* Popup */}
-          <div className="relative bg-white rounded-2xl max-w-4xl w-[90%] p-6 animate-popup">
+    {/* POPUP */}
+    <div
+      className="
+        relative bg-white rounded-2xl
+        w-full max-w-4xl
+        max-h-[90vh]
+        overflow-y-auto
+        p-4 sm:p-6
+        animate-popup
+      "
+    >
+      {/* CLOSE BUTTON */}
+      <button
+        onClick={() => setShowMenuCard(false)}
+        className="
+          sticky top-3 ml-auto
+          w-9 h-9
+          flex items-center justify-center
+          rounded-full
+          bg-black text-white
+          hover:bg-gray-800 transition
+        "
+      >
+        ✕
+      </button>
 
-            {/* Close Button */}
-            <button
-              onClick={() => setShowMenuCard(false)}
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
-            >
-              ✕
-            </button>
+      {/* TITLE */}
+      <h3 className="text-xl sm:text-2xl font-bold text-center mb-5">
+        Our Menu Card
+      </h3>
 
-            <h3 className="text-2xl font-bold text-center mb-6">
-              Our Menu Card
-            </h3>
+      {/* IMAGES */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <img
+          src={card1}
+          alt="Menu Card 1"
+          className="w-full rounded-xl shadow-md object-contain"
+        />
 
-            {/* Images */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <img
-                src={card1}
-                alt="Menu Card 1"
-                className="rounded-xl shadow-md"
-              />
-              <img
-                src={card2}
-                alt="Menu Card 2"
-                className="rounded-xl shadow-md"
-              />
-            </div>
-          </div>
+        <img
+          src={card2}
+          alt="Menu Card 2"
+          className="w-full rounded-xl shadow-md object-contain"
+        />
+      </div>
+    </div>
 
-          {/* Animation */}
-          <style>{`
+    {/* ANIMATION */}
+    <style>{`
       @keyframes popup {
         from {
           transform: scale(0.9);
@@ -394,79 +479,88 @@ const Menu = () => {
         animation: popup 0.3s ease-out;
       }
     `}</style>
-        </div>
-      )}
+  </div>
+)}
+
 
 
 
 
       {/* HORIZONTAL SCROLL */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar">
+      <div className="max-w-7xl mx-auto px-4">
+  <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory hide-scrollbar">
 
-          {filteredFoods.map(food => (
-            <div
-              key={food.id}
+    {filteredFoods.map(food => (
+      <div
+        key={food.id}
+        className="
+          snap-start flex-shrink-0
+          w-[70%] sm:w-[42%] lg:w-[26%]
+          bg-[#fff7ed] dark:bg-[#1e1e1e]
+          rounded-xl overflow-hidden
+          transition hover:shadow-lg
+        "
+      >
+        {/* IMAGE */}
+        <div className="relative h-[160px] sm:h-[170px]">
+          <img
+            src={food.img}
+            alt={food.name}
+            loading="lazy"
+            className="w-full h-full object-cover"
+          />
+
+          <span className="absolute top-2 left-2 bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded-full">
+            {food.tag}
+          </span>
+
+          <span
+            className={`absolute top-2 right-2 w-3 h-3 rounded-full ${
+              food.type === "veg"
+                ? "bg-green-500"
+                : food.type === "nonveg"
+                ? "bg-red-500"
+                : "bg-yellow-400"
+            }`}
+          />
+        </div>
+
+        {/* CONTENT */}
+        <div className="p-4">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">
+            {food.name}
+          </h3>
+
+          <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+            {food.desc}
+          </p>
+
+          <div className="flex justify-between items-center">
+            <span className="text-lg font-bold text-orange-700">
+              {food.price}
+            </span>
+
+            <button
+              onClick={() => addToCart(food)}
               className="
-                snap-start flex-shrink-0
-                w-[80%] sm:w-[48%] lg:w-[32%]
-                bg-[#fff7ed] dark:bg-[#1e1e1e]
-                rounded-2xl overflow-hidden
-                transition hover:shadow-xl
+                bg-orange-600 text-white
+                px-4 py-1.5 text-xs
+                rounded-full
+                hover:bg-orange-700
+                transition
               "
             >
-              {/* ✅ IMAGE LAZY LOAD */}
-              <div className="relative aspect-square">
-                <img
-                  src={food.img}
-                  alt={food.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-
-                <span className="absolute top-3 left-3 bg-orange-600 text-white text-xs px-3 py-1 rounded-full">
-                  {food.tag}
-                </span>
-
-                <span
-                  className={`absolute top-3 right-3 w-4 h-4 rounded-full ${food.type === "veg"
-                      ? "bg-green-500"
-                      : food.type === "nonveg"
-                        ? "bg-red-500"
-                        : "bg-yellow-400"
-                    }`}
-                />
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <h3 className="text-xl text-white font-bold mb-1">
-                  {food.name}
-                </h3>
-
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                  {food.desc}
-                </p>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-orange-700">
-                    {food.price}
-                  </span>
-
-                  <button
-                    onClick={() => addToCart(food)}
-                    className="bg-orange-600 text-white px-5 py-2 rounded-full hover:bg-orange-700 transition"
-                  >
-                    <i className="fa-solid fa-cart-plus mr-2"></i>
-                    Add
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-
+              <i className="fa-solid fa-cart-plus mr-1"></i>
+              Add
+            </button>
+          </div>
         </div>
       </div>
+    ))}
+
+  </div>
+</div>
+
     </section>
   );
 };
