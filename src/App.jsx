@@ -5,9 +5,11 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
+import Gallery from "./components/Gallery";
 import CheckoutModal from "./components/CheckoutModal";
 
 import loading from "./assets/images/loading.png";
+import PopularDishes from "./components/pupularDishes";
 
 /* 🔥 LAZY LOADED (heavy components) */
 const Menu = lazy(() => import("./components/Menu"));
@@ -26,8 +28,10 @@ function AppContent({ dark, toggleDark }) {
 
         {/* Lazy Sections */}
         <Suspense fallback={null}>
+          <PopularDishes/>
           <Menu />
           <About />
+          <Gallery />
           <ContactSection />
         </Suspense>
 

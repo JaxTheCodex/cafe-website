@@ -277,27 +277,13 @@ const Menu = () => {
   return (
     <section id="menu" className="relative py-24 overflow-hidden">
 
-      {/* ✅ BACKGROUND IMAGE (LAZY) */}
-      <img
-        src={menuBg}
-        alt=""
-        loading="lazy"
-        className="
-          absolute inset-0 w-full h-full
-          object-cover
-          -z-10
-        "
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/60 -z-10"></div>
 
       {/* Header */}
       <div className="text-center mb-10 px-4">
-        <h2 className="text-white text-4xl font-extrabold mb-3">
+        <h2 className="text-black text-4xl font-extrabold mb-3">
           Our Menu
         </h2>
-        <p className="max-w-2xl mx-auto text-gray-300">
+        <p className="max-w-2xl mx-auto text-gray-700">
           Handcrafted beverages and delicious snacks
         </p>
       </div>
@@ -492,70 +478,56 @@ const Menu = () => {
 
     {filteredFoods.map(food => (
       <div
-        key={food.id}
-        className="
-          snap-start flex-shrink-0
-          w-[70%] sm:w-[42%] lg:w-[26%]
-          bg-[#fff7ed] dark:bg-[#1e1e1e]
-          rounded-xl overflow-hidden
-          transition hover:shadow-lg
-        "
-      >
-        {/* IMAGE */}
-        <div className="relative h-[160px] sm:h-[170px]">
-          <img
-            src={food.img}
-            alt={food.name}
-            loading="lazy"
-            className="w-full h-full object-cover"
-          />
+            key={food.id}
+            className="
+              snap-start flex-shrink-0
+              w-[70%] sm:w-[45%] md:w-[30%] lg:w-[23%]
+              bg-white rounded-2xl overflow-hidden
+              shadow-md hover:shadow-xl
+              transition
+            "
+          >
+            {/* 🍽 IMAGE */}
+            <div className="h-44 overflow-hidden">
+              <img
+                src={food.img}
+                alt={food.name}
+                loading="lazy"
+                className="w-full h-full object-cover hover:scale-105 transition"
+              />
+            </div>
 
-          <span className="absolute top-2 left-2 bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded-full">
-            {food.tag}
-          </span>
+            {/* 📄 CONTENT */}
+            <div className="p-4">
+              <h3 className="text-lg font-bold text-gray-900">
+                {food.name}
+              </h3>
 
-          <span
-            className={`absolute top-2 right-2 w-3 h-3 rounded-full ${
-              food.type === "veg"
-                ? "bg-green-500"
-                : food.type === "nonveg"
-                ? "bg-red-500"
-                : "bg-yellow-400"
-            }`}
-          />
-        </div>
+              <p className="text-sm text-gray-600 mt-1 mb-3">
+                {food.desc}
+              </p>
 
-        {/* CONTENT */}
-        <div className="p-4">
-          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">
-            {food.name}
-          </h3>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-bold text-orange-600">
+                  {food.price}
+                </span>
 
-          <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
-            {food.desc}
-          </p>
-
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-bold text-orange-700">
-              {food.price}
-            </span>
-
-            <button
-              onClick={() => addToCart(food)}
-              className="
-                bg-orange-600 text-white
-                px-4 py-1.5 text-xs
-                rounded-full
-                hover:bg-orange-700
-                transition
-              "
-            >
-              <i className="fa-solid fa-cart-plus mr-1"></i>
-              Add
-            </button>
+                <button
+                  onClick={() => addToCart(food)}
+                  className="
+                    bg-orange-500 text-white
+                    px-4 py-2 rounded-full
+                    text-sm font-semibold
+                    hover:bg-orange-600
+                    transition
+                  "
+                >
+                  <i className="fa-solid fa-cart-plus mr-1"></i>
+                  Add
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
     ))}
 
   </div>

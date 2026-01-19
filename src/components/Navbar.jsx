@@ -1,7 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { useState, useCallback, memo } from "react";
 
-const NAV_ITEMS = ["home", "menu", "about", "contact"];
+const NAV_ITEMS = ["home", "menu", "about", "gallery", "contact"];
 
 const Navbar = () => {
   const { cart, setShowCart } = useCart();

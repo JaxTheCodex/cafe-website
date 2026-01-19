@@ -1,15 +1,15 @@
 import { useState } from "react";
 import heroBg from "../assets/images/homeBg1.jpg";
 
-import dishesImg from "../assets/images/foodplate.png";
-import dessertImg from "../assets/images/dessert.png";
+import CoffeeImg from "../assets/images/coffee.png";
+import foodImg from "../assets/images/foodplate.png";
 import drinksImg from "../assets/images/drinks.png";
 import platterImg from "../assets/images/platter.png";
 import snacksImg from "../assets/images/snacks.png";
 
 const foodImages = [
-  { key: "dishes", label: "Dishes", img: dishesImg },
-  { key: "dessert", label: "Dessert", img: dessertImg },
+  { key: "coffee", label: "Coffee", img: CoffeeImg },
+  { key: "dishes", label: "Dishes", img: foodImg },
   { key: "drinks", label: "Drinks", img: drinksImg },
   { key: "platter", label: "Platter", img: platterImg },
   { key: "snacks", label: "Snacks", img: snacksImg },
